@@ -97,16 +97,11 @@ $(function() {
 
         /* Load feeds before all tests. */
         beforeEach(done => {
-            loadFeed(0, () =>{
+            loadFeed(0, () => {
                 firstFeed = $('.entry').html();
-                done();
-            });
-        });
-
-        /* Change feeds. */
-        beforeEach(done => {
-            loadFeed(1, () =>{
-                done();
+                loadFeed(1, () => {
+                    done();
+                });
             });
         });
 
