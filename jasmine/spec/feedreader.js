@@ -45,9 +45,11 @@ $(function() {
 
     /* The test suite for the menu. */
     describe('The menu', () => {
-        /* This test ensures the menu element is hidden by default. */
+        /* This test ensures the menu element is hidden by default.
+         * [Fix] The test will work when body has other classes.
+         */
         it('is hidden by default', () => {
-            expect($('body')[0].className).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
          /* This test ensures the menu changes visibility when the menu
@@ -55,9 +57,9 @@ $(function() {
           */
          it('changes visibility when the menu icon is clicked', () => {
             $('.menu-icon-link').trigger('click');
-            expect($('body')[0].className.length).toBe(0);
+            expect($('body').hasClass('menu-hidden')).toBe(false);
             $('.menu-icon-link').trigger('click');
-            expect($('body')[0].className).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
          });
 
     });
@@ -67,6 +69,8 @@ $(function() {
         /* This test ensures when the loadFeed function is called
          * and completes its work, there is at least
          * a single .entry element within the .feed container.
+         * [Fix] The test will work when the first child of .feed
+         *       is of other type.
          */
 
         /* Load feeds before all tests. */
@@ -77,13 +81,10 @@ $(function() {
         });
 
         it('are not empty', () => {
-            /* There should be at least a .entry element. */
-            expect($('.entry').length).not.toBe(0);
-
-            /* The .feed container should contain at least a child 
-             * whose class name is 'entry-link'.
+            /* The .feed container should contain at least a .entry
+             * element.
              */
-            expect($('.feed')[0].children[0].className).toBe('entry-link');
+            expect($('.feed .entry').length).not.toBe(0);
         });
     
     });
@@ -92,6 +93,7 @@ $(function() {
     describe('New Feed Selection', () => {
         /* This test ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
+         * [Fix] There will be no race.
          */
         let firstFeed;
 
